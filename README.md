@@ -1,2 +1,5 @@
 # savicare
 PROJETO INTEGRADOR SAVI - HORIZONTE CARE
+
+PARA INICIAR O BACKEND:
+node src/server.js
