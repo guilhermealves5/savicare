@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrar ou Criar Conta | SAVI - Horizonte Care</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between">
+
+    <!-- NAVBAR OFICIAL -->
+    <header class="bg-white/95 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex justify-between items-center">
+            <a href="../index.html" class="flex items-center gap-3">
+                <img src="../assets/SAVI_logo.png" alt="Logo SAVI - Horizonte Care" class="h-20 w-auto object-contain">
+            </a>
+
+            <nav class="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-600">
+                <a href="../index.html" class="nav-link hover:text-emerald-600">Início</a>
+                <a href="mapa.html" class="nav-link hover:text-emerald-600">Mapa de Clínicas</a>
+                <a href="registro.html" class="nav-link hover:text-emerald-600">Registro Emocional</a>
+                <a href="dashboard.html" class="nav-link hover:text-emerald-600">Dashboard Empresarial</a>
+            </nav>
+
+            <div class="hidden md:flex items-center gap-3">
+                <a href="login.html" class="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm shadow-md transition">Entrar</a>
+            </div>
+
+            <button onclick="toggleMobileMenu()" class="md:hidden p-2 text-slate-600 hover:text-slate-900">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+        </div>
+
+        <div id="mobile-menu" class="hidden md:hidden border-t border-slate-100 bg-white px-4 pt-2 pb-4 space-y-2">
+            <a href="../index.html" class="block py-2.5 px-3 rounded-xl text-slate-600 font-semibold text-sm hover:bg-slate-50">Início</a>
+            <a href="mapa.html" class="block py-2.5 px-3 rounded-xl text-slate-600 font-semibold text-sm hover:bg-slate-50">Mapa de Clínicas</a>
+            <a href="registro.html" class="block py-2.5 px-3 rounded-xl text-slate-600 font-semibold text-sm hover:bg-slate-50">Registro Emocional</a>
+            <a href="dashboard.html" class="block py-2.5 px-3 rounded-xl text-slate-600 font-semibold text-sm hover:bg-slate-50">Dashboard Empresarial</a>
+            <a href="sobre.html" class="block py-2.5 px-3 rounded-xl text-slate-600 font-semibold text-sm hover:bg-slate-50">Sobre Nós</a>
+            <a href="login.html" class="block py-2.5 px-3 rounded-xl bg-blue-50 text-blue-700 font-bold text-sm">Entrar / Cadastrar</a>
+        </div>
+    </header>
+
+    <main class="flex-1 flex items-center justify-center p-4 sm:p-6 my-8">
+        <div class="w-full max-w-md bg-white rounded-3xl shadow-xl border border-slate-100 p-6 sm:p-8">
+            
+            <div class="flex bg-slate-100 p-1.5 rounded-2xl mb-8">
+                <button id="btn-login" onclick="alternarAba('login')" class="flex-1 py-2.5 rounded-xl text-sm font-bold transition-all bg-white text-emerald-600 shadow-sm">
+                    Entrar
+                </button>
+                <button id="btn-cadastro" onclick="alternarAba('cadastro')" class="flex-1 py-2.5 rounded-xl text-sm font-semibold transition-all text-slate-500 hover:text-slate-800">
+                    Criar conta
+                </button>
+            </div>
+
+            <!-- FORMULÁRIO DE LOGIN -->
+            <div id="form-login" class="space-y-5">
+                <div class="text-center mb-6">
+                    <h2 class="text-2xl font-bold text-slate-800">Bem-vindo de volta!</h2>
+                    <p class="text-sm text-slate-500 mt-1">Acesse sua conta corporativa SAVI.</p>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-2">E-mail</label>
+                    <div class="relative">
+                        <i data-lucide="mail" class="w-5 h-5 absolute left-3.5 top-3.5 text-slate-400"></i>
+                        <input type="email" id="login-email" placeholder="seu.email@empresa.com" class="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-500 text-sm">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-2">Senha</label>
+                    <div class="relative">
+                        <i data-lucide="lock" class="w-5 h-5 absolute left-3.5 top-3.5 text-slate-400"></i>
+                        <input type="password" id="login-senha" placeholder="••••••••" class="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-500 text-sm">
+                    </div>
+                </div>
+
+                <button type="button" onclick="executarLogin()" class="w-full py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold transition shadow-md shadow-blue-600/20">
+                    Entrar
+                </button>
+
+                <p class="text-center text-xs text-slate-500 pt-4">
+                    Ainda não tem uma conta? 
+                    <button type="button" onclick="alternarAba('cadastro')" class="text-emerald-600 font-bold hover:underline">Cadastre-se</button>
+                </p>
+            </div>
+
+            <!-- FORMULÁRIO DE CADASTRO -->
+            <div id="form-cadastro" class="space-y-5 hidden">
+                <div class="text-center mb-6">
+                    <h2 class="text-2xl font-bold text-slate-800">Criar conta</h2>
+                    <p class="text-sm text-slate-500 mt-1">Vamos começar? Preencha os dados abaixo.</p>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-2">Nome Completo</label>
+                    <div class="relative">
+                        <i data-lucide="user" class="w-5 h-5 absolute left-3.5 top-3.5 text-slate-400"></i>
+                        <input type="text" id="cad-nome" placeholder="Nome Sobrenome" class="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-500 text-sm">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-2">E-mail</label>
+                    <div class="relative">
+                        <i data-lucide="mail" class="w-5 h-5 absolute left-3.5 top-3.5 text-slate-400"></i>
+                        <input type="email" id="cad-email" placeholder="seu.email@empresa.com" class="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-500 text-sm">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-2">Senha</label>
+                    <div class="relative">
+                        <i data-lucide="lock" class="w-5 h-5 absolute left-3.5 top-3.5 text-slate-400"></i>
+                        <input type="password" id="cad-senha" placeholder="••••••••" class="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-500 text-sm">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-2">Qual é o seu perfil?</label>
+                    <div class="grid grid-cols-2 gap-3">
+                        <button type="button" id="perfil-colaborador" onclick="selecionarPerfil('colaborador')" class="py-2.5 px-4 rounded-xl border-2 border-emerald-500 bg-emerald-50 text-emerald-700 font-bold text-xs flex items-center justify-center gap-2">
+                            <i data-lucide="user" class="w-4 h-4"></i> Colaborador
+                        </button>
+                        <button type="button" id="perfil-empresa" onclick="selecionarPerfil('empresa')" class="py-2.5 px-4 rounded-xl border border-slate-200 text-slate-600 font-bold text-xs flex items-center justify-center gap-2">
+                            <i data-lucide="building" class="w-4 h-4"></i> Empresa
+                        </button>
+                    </div>
+                </div>
+
+                <button type="button" onclick="executarCadastro()" class="w-full py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold transition shadow-md shadow-emerald-600/20">
+                    Criar conta
+                </button>
+
+                <p class="text-center text-xs text-slate-500 pt-2">
+                    Já tem uma conta? 
+                    <button type="button" onclick="alternarAba('login')" class="text-emerald-600 font-bold hover:underline">Entrar</button>
+                </p>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="bg-white border-t border-slate-200 py-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+            <div>
+                <span class="font-bold text-emerald-600">SAVI</span> &copy; 2026 Horizonte Care. Todos os direitos reservados.
+            </div>
+            <div class="flex gap-6">
+                <a href="sobre.html" class="hover:text-emerald-600 font-medium">Sobre Nós</a>
+                <a href="#" class="hover:text-emerald-600">Termos de Uso</a>
+                <a href="#" class="hover:text-emerald-600">Privacidade</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script>
+        lucide.createIcons();
+
+        // Armazenamento global sem conflito de sintaxe
+        window.tipoPerfilCadastro = 'colaborador';
+
+        function alternarAba(aba) {
+            const formLogin = document.getElementById('form-login');
+            const formCadastro = document.getElementById('form-cadastro');
+            const btnLogin = document.getElementById('btn-login');
+            const btnCadastro = document.getElementById('btn-cadastro');
+
+            if (aba === 'login') {
+                formLogin.classList.remove('hidden');
+                formCadastro.classList.add('hidden');
+                
+                btnLogin.className = "flex-1 py-2.5 rounded-xl text-sm font-bold transition-all bg-white text-emerald-600 shadow-sm";
+                btnCadastro.className = "flex-1 py-2.5 rounded-xl text-sm font-semibold transition-all text-slate-500 hover:text-slate-800";
+            } else {
+                formCadastro.classList.remove('hidden');
+                formLogin.classList.add('hidden');
+
+                btnCadastro.className = "flex-1 py-2.5 rounded-xl text-sm font-bold transition-all bg-white text-emerald-600 shadow-sm";
+                btnLogin.className = "flex-1 py-2.5 rounded-xl text-sm font-semibold transition-all text-slate-500 hover:text-slate-800";
+            }
+        }
+
+        function selecionarPerfil(perfil) {
+            window.tipoPerfilCadastro = perfil;
+            const btnColab = document.getElementById('perfil-colaborador');
+            const btnEmpresa = document.getElementById('perfil-empresa');
+
+            if (perfil === 'colaborador') {
+                btnColab.className = "py-2.5 px-4 rounded-xl border-2 border-emerald-500 bg-emerald-50 text-emerald-700 font-bold text-xs flex items-center justify-center gap-2";
+                btnEmpresa.className = "py-2.5 px-4 rounded-xl border border-slate-200 text-slate-600 font-bold text-xs flex items-center justify-center gap-2";
+            } else {
+                btnEmpresa.className = "py-2.5 px-4 rounded-xl border-2 border-emerald-500 bg-emerald-50 text-emerald-700 font-bold text-xs flex items-center justify-center gap-2";
+                btnColab.className = "py-2.5 px-4 rounded-xl border border-slate-200 text-slate-600 font-bold text-xs flex items-center justify-center gap-2";
+            }
+        }
+
+        async function executarLogin() {
+            const emailInput = document.getElementById('login-email').value.trim();
+            const senhaInput = document.getElementById('login-senha').value;
+
+            if (!emailInput || !senhaInput) {
+                alert('Por favor, preencha o e-mail e a senha.');
+                return;
+            }
+
+            try {
+                const resposta = await fetch('http://localhost:3000/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: emailInput, senha: senhaInput })
+                });
+
+                const dados = await resposta.json();
+
+                if (resposta.ok) {
+                    localStorage.setItem('usuarioId', dados.usuario.id);
+                    localStorage.setItem('usuarioNome', dados.usuario.nome);
+                    localStorage.setItem('usuarioRole', dados.usuario.role);
+
+                    alert(`Login realizado com sucesso! Bem-vindo(a), ${dados.usuario.nome}.`);
+                    
+                    window.location.href = '../index.html';
+                } else {
+                    alert(dados.error || 'Erro ao realizar login. Verifique suas credenciais.');
+                }
+            } catch (error) {
+                console.error('Erro na conexão com a API de login:', error);
+                alert('Erro ao conectar com o servidor Node.js.');
+            }
+        }
+
+        async function executarCadastro() {
+            const nomeInput = document.getElementById('cad-nome').value.trim();
+            const emailInput = document.getElementById('cad-email').value.trim();
+            const senhaInput = document.getElementById('cad-senha').value;
+
+            if (!nomeInput || !emailInput || !senhaInput) {
+                alert('Por favor, preencha todos os campos do cadastro.');
+                return;
+            }
+
+            try {
+                const resposta = await fetch('http://localhost:3000/api/cadastro', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        nome: nomeInput,
+                        email: emailInput,
+                        senha: senhaInput,
+                        role: window.tipoPerfilCadastro
+                    })
+                });
+
+                const dados = await resposta.json();
+
+                if (resposta.ok) {
+                    alert('Conta criada com sucesso! Faça seu login para continuar.');
+                    alternarAba('login');
+                    document.getElementById('login-email').value = emailInput;
+                } else {
+                    alert(dados.error || 'Erro ao realizar cadastro.');
+                }
+            } catch (error) {
+                console.error('Erro na conexão com a API de cadastro:', error);
+                alert('Erro ao conectar com o servidor Node.js.');
+            }
+        }
+    </script>
+</body>
+</html>

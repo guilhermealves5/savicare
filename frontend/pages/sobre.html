@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre Nós | SAVI - Horizonte Care</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between">
+
+    <!-- NAVBAR OFICIAL -->
+    <header class="bg-white/95 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex justify-between items-center">
+            <a href="../index.html" class="flex items-center gap-3">
+                <img src="../assets/SAVI_logo.png" alt="Logo SAVI - Horizonte Care" class="h-20 w-auto object-contain">
+            </a>
+
+            <nav class="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-600">
+                <a href="../index.html" class="nav-link hover:text-emerald-600">Início</a>
+                <a href="mapa.html" class="nav-link hover:text-emerald-600">Mapa de Clínicas</a>
+                <a href="registro.html" class="nav-link hover:text-emerald-600">Registro Emocional</a>
+                <a href="dashboard.html" class="nav-link hover:text-emerald-600">Dashboard Empresarial</a>
+            </nav>
+
+            <div class="hidden md:flex items-center gap-3">
+                <a href="login.html" class="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm shadow-md transition">Entrar</a>
+            </div>
+
+            <button onclick="toggleMobileMenu()" class="md:hidden p-2 text-slate-600 hover:text-slate-900">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+        </div>
+
+        <div id="mobile-menu" class="hidden md:hidden border-t border-slate-100 bg-white px-4 pt-2 pb-4 space-y-2">
+            <a href="../index.html" class="block py-2.5 px-3 rounded-xl text-slate-600 font-semibold text-sm hover:bg-slate-50">Início</a>
+            <a href="mapa.html" class="block py-2.5 px-3 rounded-xl text-slate-600 font-semibold text-sm hover:bg-slate-50">Mapa de Clínicas</a>
+            <a href="registro.html" class="block py-2.5 px-3 rounded-xl text-slate-600 font-semibold text-sm hover:bg-slate-50">Registro Emocional</a>
+            <a href="dashboard.html" class="block py-2.5 px-3 rounded-xl text-slate-600 font-semibold text-sm hover:bg-slate-50">Dashboard Empresarial</a>
+            <a href="sobre.html" class="block py-2.5 px-3 rounded-xl bg-emerald-50 text-emerald-700 font-bold text-sm">Sobre Nós</a>
+            <a href="login.html" class="block py-2.5 px-3 rounded-xl bg-blue-50 text-blue-700 font-bold text-sm">Entrar / Cadastrar</a>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 py-12 space-y-10 flex-1 w-full">
+        <div class="text-center space-y-3">
+            <span class="px-4 py-1.5 rounded-full bg-emerald-100 text-emerald-700 font-bold text-xs">Horizonte Care</span>
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-800">Transformando o bem-estar corporativo com tecnologia humanizada.</h1>
+        </div>
+
+        <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm space-y-6 text-slate-600 leading-relaxed text-sm">
+            <p>
+                A <strong>Horizonte Care</strong> nasceu com a missão de aproximar colaboradores e empresas por meio da saúde mental preventiva. Acreditamos que a produtividade sustentável só é possível quando há equilíbrio e acolhimento no ambiente corporativo.
+            </p>
+            <p>
+                O <strong>SAVI</strong> é a nossa plataforma inovadora de monitoramento emocional. Ele permite que os colaboradores façam acompanhamento diário do seu humor, encontrem profissionais credenciados próximos e ofereçam à gestão dados estatísticos anonimizados para a criação de estratégias de bem-estar assertivas.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
+                <div class="p-5 rounded-2xl bg-emerald-50 border border-emerald-100 space-y-1">
+                    <h3 class="font-bold text-emerald-800 text-base">Nossa Missão</h3>
+                    <p class="text-xs text-emerald-700">Democratizar o acesso ao apoio psicológico corporativo com ética e inovação.</p>
+                </div>
+                <div class="p-5 rounded-2xl bg-blue-50 border border-blue-100 space-y-1">
+                    <h3 class="font-bold text-blue-800 text-base">Nossa Visão</h3>
+                    <p class="text-xs text-blue-700">Ser referência nacional em soluções inteligentes para saúde mental no trabalho.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-white border-t border-slate-200 py-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+            <div>
+                <span class="font-bold text-emerald-600">SAVI</span> &copy; 2026 Horizonte Care. Todos os direitos reservados.
+            </div>
+            <div class="flex gap-6">
+                <a href="sobre.html" class="text-emerald-600 font-bold">Sobre Nós</a>
+                <a href="#" class="hover:text-emerald-600">Termos de Uso</a>
+                <a href="#" class="hover:text-emerald-600">Privacidade</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script>lucide.createIcons();</script>
+</body>
+</html>

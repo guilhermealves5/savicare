@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa de Clínicas | SAVI - Horizonte Care</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Ícones Lucide -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Leaflet CSS (Mapa Interativo) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between">
+
+    <!-- NAVBAR OFICIAL -->
+    <header class="bg-white/95 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex justify-between items-center">
+            <a href="../index.html" class="flex items-center gap-3">
+                <img src="../assets/SAVI_logo.png" alt="Logo SAVI - Horizonte Care" class="h-20 w-auto object-contain">
+            </a>
+
+            <nav class="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-600">
+                <a href="../index.html" class="nav-link hover:text-emerald-600">Início</a>
+                <a href="mapa.html" class="nav-link text-emerald-600 font-bold">Mapa de Clínicas</a>
+                <a href="registro.html" class="nav-link hover:text-emerald-600">Registro Emocional</a>
+                <a href="dashboard.html" class="nav-link hover:text-emerald-600">Dashboard Empresarial</a>
+            </nav>
+
+            <div class="hidden md:flex items-center gap-3">
+                <a href="login.html" class="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm shadow-md transition">Entrar</a>
+            </div>
+
+            <button onclick="toggleMobileMenu()" class="md:hidden p-2 text-slate-600 hover:text-slate-900">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+        </div>
+
+        <div id="mobile-menu" class="hidden md:hidden border-t border-slate-100 bg-white px-4 pt-2 pb-4 space-y-2">
+            <a href="../index.html" class="block py-2.5 px-3 rounded-xl text-slate-600 font-semibold text-sm hover:bg-slate-50">Início</a>
+            <a href="mapa.html" class="block py-2.5 px-3 rounded-xl bg-emerald-50 text-emerald-700 font-bold text-sm">Mapa de Clínicas</a>
+            <a href="registro.html" class="block py-2.5 px-3 rounded-xl text-slate-600 font-semibold text-sm hover:bg-slate-50">Registro Emocional</a>
+            <a href="dashboard.html" class="block py-2.5 px-3 rounded-xl text-slate-600 font-semibold text-sm hover:bg-slate-50">Dashboard Empresarial</a>
+            <a href="sobre.html" class="block py-2.5 px-3 rounded-xl text-slate-600 font-semibold text-sm hover:bg-slate-50">Sobre Nós</a>
+            <a href="login.html" class="block py-2.5 px-3 rounded-xl bg-blue-50 text-blue-700 font-bold text-sm">Entrar / Cadastrar</a>
+        </div>
+    </header>
+
+    <!-- CONTEÚDO DO MAPA DE CLÍNICAS -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full">
+        <div class="mb-6">
+            <h1 class="text-2xl sm:text-3xl font-bold text-slate-800">Mapa de Clínicas</h1>
+            <p class="text-slate-500 text-sm mt-1">Encontre o apoio psicológico e psiquiátrico credenciado mais próximo de você.</p>
+        </div>
+
+        <!-- BUSCA -->
+        <div class="space-y-4 mb-6">
+            <div class="relative">
+                <i data-lucide="search" class="w-5 h-5 absolute left-4 top-3.5 text-slate-400"></i>
+                <input type="text" id="input-busca" onkeyup="filtrarClinicas()" placeholder="Buscar por nome, especialidade ou endereço..." class="w-full pl-11 pr-4 py-3 rounded-2xl border border-slate-200 bg-white focus:outline-none focus:border-emerald-500 shadow-sm text-sm">
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- MAPA REAL E INTERATIVO -->
+            <div class="lg:col-span-2 bg-slate-100 rounded-3xl h-[480px] relative overflow-hidden shadow-sm border border-slate-200">
+                <div id="mapa-leaflet" class="w-full h-full rounded-3xl z-10"></div>
+            </div>
+
+            <!-- DETALHES DA CLÍNICA SELECIONADA -->
+            <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 font-bold text-xs" id="clinica-tag">Parceiro Ativo</span>
+                        <div class="flex items-center gap-1 text-amber-500 font-bold text-xs">
+                            <i data-lucide="star" class="w-4 h-4 fill-amber-500"></i>
+                            <span id="clinica-nota">4.9 (124 avaliações)</span>
+                        </div>
+                    </div>
+
+                    <h2 class="text-xl font-bold text-slate-800" id="clinica-nome">Selecione uma clínica</h2>
+                    <p class="text-xs text-slate-500 mt-1 flex items-center gap-1">
+                        <i data-lucide="navigation" class="w-3.5 h-3.5 text-emerald-600"></i>
+                        <span id="clinica-distancia">Clique no pin no mapa para ver os detalhes</span>
+                    </p>
+
+                    <div class="my-4 pt-4 border-t border-slate-100 space-y-2">
+                        <p class="text-xs text-slate-600"><strong>Especialidades:</strong> <span id="clinica-especialidades">Psicologia, Terapia TCC, Psiquiatria</span></p>
+                        <p class="text-xs text-slate-600"><strong>Endereço:</strong> <span id="clinica-endereco">Endereço da clínica selecionada</span></p>
+                        <p class="text-xs text-slate-600"><strong>Contato:</strong> <span id="clinica-telefone">(11) 0000-0000</span></p>
+                    </div>
+                </div>
+
+                <div class="space-y-2 pt-4 border-t border-slate-100">
+                    <button onclick="agendarConsulta()" class="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm shadow-md transition flex items-center justify-center gap-2">
+                        <i data-lucide="calendar" class="w-4 h-4"></i> Agendar Consulta
+                    </button>
+                    <a id="btn-rotas" href="#" target="_blank" class="w-full py-2.5 rounded-xl border border-slate-200 text-slate-700 font-semibold text-xs hover:bg-slate-50 transition flex items-center justify-center gap-2">
+                        <i data-lucide="map" class="w-4 h-4"></i> Abrir no Google Maps
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-white border-t border-slate-200 py-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+            <div>
+                <span class="font-bold text-emerald-600">SAVI</span> &copy; 2026 Horizonte Care. Todos os direitos reservados.
+            </div>
+            <div class="flex gap-6">
+                <a href="sobre.html" class="hover:text-emerald-600 font-medium">Sobre Nós</a>
+                <a href="#" class="hover:text-emerald-600">Termos de Uso</a>
+                <a href="#" class="hover:text-emerald-600">Privacidade</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Leaflet JS (Biblioteca de Mapas) -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="../js/main.js"></script>
+    <script>
+        lucide.createIcons();
+
+        // 1. Dados das Clínicas Parceiras (Com Coordenadas Reais de SP)
+        const clinicas = [
+            {
+                id: 1,
+                nome: "CLINICA DE PSICOLOGIA SP LTDA",
+                nota: "5.0 (98 avaliações)",
+                distancia: "1,2 km de você • Aberto até 18:00",
+                especialidades: "Psicologia Clínica, Terapia Cognitivo-Comportamental",
+                endereco: "Rua dos Ingleses, 149 - Morro dos Ingleses, São Paulo - SP",
+                telefone: "+55 11 99824-1538",
+                lat: -23.5608,
+                lng: -46.6475
+            },
+            {
+                id: 2,
+                nome: "Recriar Clínica de Psicologia",
+                nota: "4.9 (156 avaliações)",
+                distancia: "2,8 km de você • Aberto até 20:00",
+                especialidades: "Psicologia, Acompanhamento Emocional, Ansiedade",
+                endereco: "Av. Dr. Gentil de Moura, 287 - Ipiranga, São Paulo - SP",
+                telefone: "+55 11 2539-6962",
+                lat: -23.5932,
+                lng: -46.6105
+            },
+            {
+                id: 3,
+                nome: "Espaço Humaniza - Saúde Mental",
+                nota: "4.9 (82 avaliações)",
+                distancia: "4,1 km de você • Aberto até 19:00",
+                especialidades: "Psiquiatria, Terapia de Casal, Gestão de Burnout",
+                endereco: "Rua Apucarana, 272 - Tatuapé, São Paulo - SP",
+                telefone: "+55 11 2385-2691",
+                lat: -23.5412,
+                lng: -46.5684
+            },
+            {
+                id: 4,
+                nome: "Psico Vila Olímpia",
+                nota: "5.0 (110 avaliações)",
+                distancia: "5,3 km de você • Aberto até 22:00",
+                especialidades: "Psicologia Organizacional, Estresse Corporativo",
+                endereco: "Rua Helena, 285 - Vila Olímpia, São Paulo - SP",
+                telefone: "+55 11 98888-7766",
+                lat: -23.5955,
+                lng: -46.6852
+            }
+        ];
+
+        let map = null;
+        let marcadores = [];
+
+        // 2. Inicializar o Mapa Leaflet
+        function inicializarMapa() {
+            // Ponto central inicial (São Paulo)
+            map = L.map('mapa-leaflet').setView([-23.5608, -46.6475], 12);
+
+            // Adicionar as camadas de mapa do OpenStreetMap
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(map);
+
+            // Adicionar os Pins de cada clínica
+            renderizarMarcadores(clinicas);
+
+            // Selecionar a primeira clínica por padrão
+            selecionarClinica(clinicas[0]);
+        }
+
+        // 3. Renderizar Pins no Mapa
+        function renderizarMarcadores(lista) {
+            // Limpar marcadores anteriores
+            marcadores.forEach(m => map.removeLayer(m));
+            marcadores = [];
+
+            lista.forEach(c => {
+                const marker = L.marker([c.lat, c.lng]).addTo(map);
+                marker.bindPopup(`<b>${c.nome}</b><br><span style="font-size:11px;">${c.especialidades}</span>`);
+                
+                marker.on('click', () => {
+                    selecionarClinica(c);
+                });
+
+                marcadores.push(marker);
+            });
+        }
+
+        // 4. Selecionar Clínica e Atualizar Painel Lateral
+        function selecionarClinica(c) {
+            document.getElementById('clinica-nome').innerText = c.nome;
+            document.getElementById('clinica-nota').innerText = c.nota;
+            document.getElementById('clinica-distancia').innerText = c.distancia;
+            document.getElementById('clinica-especialidades').innerText = c.especialidades;
+            document.getElementById('clinica-endereco').innerText = c.endereco;
+            document.getElementById('clinica-telefone').innerText = c.telefone;
+
+            // Atualizar Link do Google Maps
+            const btnRotas = document.getElementById('btn-rotas');
+            btnRotas.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(c.nome + ' ' + c.endereco)}`;
+
+            // Centralizar o mapa na clínica selecionada com zoom suave
+            if (map) {
+                map.flyTo([c.lat, c.lng], 14, { duration: 1.2 });
+            }
+        }
+
+        // 5. Filtro de Busca de Clínicas
+        function filtrarClinicas() {
+            const termo = document.getElementById('input-busca').value.toLowerCase();
+            const filtradas = clinicas.filter(c => 
+                c.nome.toLowerCase().includes(termo) ||
+                c.especialidades.toLowerCase().includes(termo) ||
+                c.endereco.toLowerCase().includes(termo)
+            );
+
+            renderizarMarcadores(filtradas);
+
+            if (filtradas.length > 0) {
+                selecionarClinica(filtradas[0]);
+            }
+        }
+
+        function agendarConsulta() {
+            alert('Abertura de formulário de agendamento integrado à rede credenciada SAVI!');
+        }
+
+        // Executar inicialização do mapa assim que a página carregar
+        window.addEventListener('DOMContentLoaded', inicializarMapa);
+    </script>
+</body>
+</html>

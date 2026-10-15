@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAVI | Monitoramento Emocional - Horizonte Care</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="css/style.css?v=2">
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between">
+
+    <!-- NAVBAR OFICIAL -->
+    <header class="bg-white/95 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-3">
+                <img src="assets/SAVI_logo.png" alt="Logo SAVI - Horizonte Care" class="h-20 w-auto object-contain">
+            </a>
+
+            <nav class="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-600">
+                <a href="index.html" class="nav-link text-emerald-600 font-bold">Início</a>
+                <a href="pages/mapa.html" class="nav-link hover:text-emerald-600">Mapa de Clínicas</a>
+                <a href="pages/registro.html" class="nav-link hover:text-emerald-600">Registro Emocional</a>
+                <a href="pages/dashboard.html" class="nav-link hover:text-emerald-600">Dashboard Empresarial</a>
+            </nav>
+
+            <div class="hidden md:flex items-center gap-3">
+                <a href="pages/login.html" class="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm shadow-md transition">Entrar</a>
+            </div>
+
+            <button onclick="toggleMobileMenu()" class="md:hidden p-2 text-slate-600 hover:text-slate-900">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+        </div>
+
+        <div id="mobile-menu" class="hidden md:hidden border-t border-slate-100 bg-white px-4 pt-2 pb-4 space-y-2">
+            <a href="index.html" class="block py-2.5 px-3 rounded-xl bg-emerald-50 text-emerald-700 font-bold text-sm">Início</a>
+            <a href="pages/mapa.html" class="block py-2.5 px-3 rounded-xl text-slate-600 font-semibold text-sm hover:bg-slate-50">Mapa de Clínicas</a>
+            <a href="pages/registro.html" class="block py-2.5 px-3 rounded-xl text-slate-600 font-semibold text-sm hover:bg-slate-50">Registro Emocional</a>
+            <a href="pages/dashboard.html" class="block py-2.5 px-3 rounded-xl text-slate-600 font-semibold text-sm hover:bg-slate-50">Dashboard Empresarial</a>
+            <a href="pages/sobre.html" class="block py-2.5 px-3 rounded-xl text-slate-600 font-semibold text-sm hover:bg-slate-50">Sobre Nós</a>
+            <a href="pages/login.html" class="block py-2.5 px-3 rounded-xl bg-blue-50 text-blue-700 font-bold text-sm">Entrar / Cadastrar</a>
+        </div>
+    </header>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 flex-1 w-full">
+        <!-- SAUDAÇÃO DINÂMICA (Sem a bola/avatar lateral) -->
+        <div>
+            <h1 class="text-2xl sm:text-3xl font-bold text-slate-800" id="saudacao-nome">Olá, Colaborador!</h1>
+            <p class="text-slate-500 text-sm mt-1">Que bom te ver por aqui. Seu bem-estar é a nossa prioridade.</p>
+        </div>
+
+        <!-- CARD DE ESTADO EMOCIONAL ATUAL -->
+        <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div class="flex items-center gap-4">
+                <div id="emoji-status" class="w-16 h-16 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center text-4xl shadow-inner">
+                    😌
+                </div>
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Como você está hoje?</span>
+                    <h2 class="text-2xl font-bold text-slate-800" id="texto-humor">Acompanhamento Ativo</h2>
+                    <p class="text-xs text-slate-500 mt-1" id="texto-subhumor">Faça seu check-in diário para acompanhar seu bem-estar emocional.</p>
+                </div>
+            </div>
+            <a href="pages/registro.html" class="w-full sm:w-auto px-6 py-3 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm text-center shadow-md shadow-emerald-600/20 transition flex items-center justify-center gap-2">
+                <i data-lucide="plus-circle" class="w-5 h-5"></i> Registrar Hoje
+            </a>
+        </div>
+
+        <!-- BOTÕES DE ACESSO RÁPIDO -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <!-- Card 1: Registro Emocional -->
+            <a href="pages/registro.html" class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm hover:border-emerald-500 hover:shadow-md transition flex flex-row items-center gap-4 group">
+                <div style="width: 48px; height: 48px; min-width: 48px; min-height: 48px;" class="rounded-2xl bg-emerald-50 text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white transition flex items-center justify-center shrink-0">
+                    <i data-lucide="heart-pulse" class="w-6 h-6"></i>
+                </div>
+                <div class="flex flex-col">
+                    <h3 class="font-bold text-slate-800 text-sm">Registro Emocional</h3>
+                    <p class="text-xs text-slate-500 mt-0.5">Faça seu check-in diário</p>
+                </div>
+            </a>
+
+            <!-- Card 2: Mapa de Clínicas -->
+            <a href="pages/mapa.html" class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm hover:border-blue-500 hover:shadow-md transition flex flex-row items-center gap-4 group">
+                <div style="width: 48px; height: 48px; min-width: 48px; min-height: 48px;" class="rounded-2xl bg-blue-50 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition flex items-center justify-center shrink-0">
+                    <i data-lucide="map-pin" class="w-6 h-6"></i>
+                </div>
+                <div class="flex flex-col">
+                    <h3 class="font-bold text-slate-800 text-sm">Mapa de Clínicas</h3>
+                    <p class="text-xs text-slate-500 mt-0.5">Apoio credenciado próximo</p>
+                </div>
+            </a>
+
+            <!-- Card 3: Dashboard Empresarial (Imune a alterações do JS) -->
+            <a href="pages/dashboard.html" id="card-dashboard-home" style="display: flex !important;" class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm hover:border-indigo-500 hover:shadow-md transition flex-row items-center gap-4 group">
+                <div style="width: 48px; height: 48px; min-width: 48px; min-height: 48px;" class="rounded-2xl bg-indigo-50 text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white transition flex items-center justify-center shrink-0">
+                    <i data-lucide="bar-chart-3" class="w-6 h-6"></i>
+                </div>
+                <div class="flex flex-col">
+                    <h3 class="font-bold text-slate-800 text-sm">Dashboard Empresarial</h3>
+                    <p class="text-xs text-slate-500 mt-0.5">Métricas de clima do time</p>
+                </div>
+            </a>
+        </div>
+
+        <!-- BANNER DE CONSCIENTIZAÇÃO -->
+        <div class="bg-gradient-to-r from-emerald-600 to-teal-700 rounded-3xl p-6 sm:p-8 text-white shadow-lg flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+            <div class="flex items-center gap-5">
+                <div class="p-4 rounded-2xl bg-white/20 backdrop-blur-md">
+                    <i data-lucide="shield-check" class="w-8 h-8 text-white"></i>
+                </div>
+                <div>
+                    <h3 class="font-bold text-lg sm:text-xl">Cuidar da saúde mental também é produtividade.</h3>
+                    <p class="text-xs sm:text-sm text-emerald-100 mt-1">Conheça a plataforma SAVI e como a Horizonte Care apoia a sua jornada corporativa.</p>
+                </div>
+            </div>
+            <a href="pages/sobre.html" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-white text-emerald-800 font-bold text-xs hover:bg-emerald-50 text-center transition whitespace-nowrap">
+                Sobre a Horizonte Care
+            </a>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-white border-t border-slate-200 py-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+            <div>
+                <span class="font-bold text-emerald-600">SAVI</span> &copy; 2026 Horizonte Care. Todos os direitos reservados.
+            </div>
+            <div class="flex gap-6">
+                <a href="pages/sobre.html" class="hover:text-emerald-600 font-medium">Sobre Nós</a>
+                <a href="#" class="hover:text-emerald-600">Termos de Uso</a>
+                <a href="#" class="hover:text-emerald-600">Privacidade</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js?v=2"></script>
+<script>
+    lucide.createIcons();
+
+    window.addEventListener('DOMContentLoaded', () => {
+        const usuarioNome = localStorage.getItem('usuarioNome');
+        const usuarioRole = (localStorage.getItem('usuarioRole') || '').toLowerCase().trim();
+
+        if (usuarioNome) {
+            document.getElementById('saudacao-nome').innerText = `Olá, ${usuarioNome}!`;
+        }
+
+        // Ocultar card do Dashboard na Home se não for perfil empresa
+        const cardDashboardHome = document.querySelector('a[href*="dashboard.html"]');
+        if (cardDashboardHome && usuarioRole !== 'empresa') {
+            cardDashboardHome.style.display = 'none';
+        }
+    });
+</script>
+</body>
+</html>

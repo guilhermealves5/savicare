@@ -1,0 +1,39 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id        String   @id @default(uuid())
+  nome      String
+  email     String   @unique
+  senha     String
+  role      String   @default("colaborador")
+  createdAt DateTime @default(now())
+
+  registros RegistroEmocional[]
+}
+
+model RegistroEmocional {
+  id          String   @id @default(uuid())
+  emocao      String
+  intensidade Int
+  observacao  String?
+  usuarioId   String
+  usuario     Usuario  @relation(fields: [usuarioId], references: [id])
+  createdAt   DateTime @default(now())
+}
+
+model Clinica {
+  id             String @id @default(uuid())
+  nome           String
+  nota           String
+  distancia      String
+  especialidades String
+  endereco       String
+  telefone       String
+}
