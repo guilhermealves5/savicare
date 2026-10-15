@@ -97,6 +97,44 @@ app.post('/api/login', async (req, res) => {
     }
 });
 
+// --- ROTA DE CADASTRO DE USUÁRIO ---
+app.post('/api/usuarios', async (req, res) => {
+    const { nome, email, senha, role } = req.body;
+
+    if (!nome || !email || !senha) {
+        return res.status(400).json({ error: 'Preencha todos os campos obrigatórios.' });
+    }
+
+    try {
+        // Verifica se o e-mail já existe
+        const [existente] = await pool.execute('SELECT id FROM Usuario WHERE email = ?', [email]);
+        if (existente.length > 0) {
+            return res.status(400).json({ error: 'Este e-mail já está registado.' });
+        }
+
+        const cargoFinal = role || 'colaborador';
+
+        // Insere o novo utilizador na base de dados do Aiven
+        const [resultado] = await pool.execute(
+            'INSERT INTO Usuario (nome, email, senha, role) VALUES (?, ?, ?, ?)',
+            [nome, email, senha, cargoFinal]
+        );
+
+        res.status(201).json({
+            message: 'Utilizador criado com sucesso!',
+            usuario: {
+                id: resultado.insertId,
+                nome,
+                email,
+                role: cargoFinal
+            }
+        });
+    } catch (error) {
+        console.error('Erro ao registar utilizador:', error);
+        res.status(500).json({ error: 'Erro interno no servidor.' });
+    }
+});
+
 // --- ROTA DE MÉTRICAS DO DASHBOARD ---
 app.get('/api/dashboard/metricas', async (req, res) => {
     try {
