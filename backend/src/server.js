@@ -7,11 +7,16 @@ app.use(cors());
 app.use(express.json());
 
 // Configuração da conexão com o XAMPP MySQL
+
 const pool = mysql.createPool({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'savicare_db'
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    port: process.env.DB_PORT,
+    ssl: {
+        rejectUnauthorized: false // Necessário para o Render aceitar o certificado SSL do Aiven
+    }
 });
 
 // --- ROTA DE LOGIN CORRIGIDA ---
