@@ -138,7 +138,7 @@ app.post('/api/usuarios', async (req, res) => {
 // --- ROTA DE MÉTRICAS DO DASHBOARD ---
 app.get('/api/dashboard/metricas', async (req, res) => {
     try {
-        const [rowsColab] = await pool.execute('SELECT COUNT(*) as total FROM Usuario WHERE role = "colaborador"');
+        const [rowsColab] = await pool.execute("SELECT COUNT(*) as total FROM Usuario WHERE role = 'colaborador'");
         const colaboradoresAtivos = rowsColab[0].total || 0;
 
         const [registros] = await pool.execute('SELECT * FROM RegistroEmocional');
