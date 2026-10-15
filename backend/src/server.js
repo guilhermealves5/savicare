@@ -135,6 +135,27 @@ app.post('/api/usuarios', async (req, res) => {
     }
 });
 
+// --- ROTA PARA SALVAR REGISTRO EMOCIONAL ---
+app.post('/api/registros', async (req, res) => {
+    const { usuario_id, emocao, nota, comentario } = req.body;
+
+    if (!emocao) {
+        return res.status(400).json({ error: 'A emoção é obrigatória.' });
+    }
+
+    try {
+        await pool.execute(
+            'INSERT INTO RegistroEmocional (usuario_id, emocao, nota, comentario, data_registro) VALUES (?, ?, ?, ?, NOW())',
+            [usuario_id || null, emocao, nota || 3, comentario || '']
+        );
+
+        res.status(201).json({ message: 'Registro emocional salvo com sucesso!' });
+    } catch (error) {
+        console.error('Erro ao salvar registro:', error);
+        res.status(500).json({ error: 'Erro ao salvar o registro no banco de dados.' });
+    }
+});
+
 // --- ROTA DE MÉTRICAS DO DASHBOARD ---
 app.get('/api/dashboard/metricas', async (req, res) => {
     try {
