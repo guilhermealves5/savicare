@@ -19,6 +19,50 @@ const pool = mysql.createPool({
     }
 });
 
+async function criarTabelas() {
+    try {
+        await pool.query(`
+            CREATE TABLE IF NOT EXISTS Usuario (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                nome VARCHAR(100) NOT NULL,
+                email VARCHAR(100) UNIQUE NOT NULL,
+                senha VARCHAR(255) NOT NULL,
+                role VARCHAR(50) DEFAULT 'colaborador'
+            );
+        `);
+
+        await pool.query(`
+            CREATE TABLE IF NOT EXISTS RegistroEmocional (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                usuario_id INT,
+                emocao VARCHAR(50) NOT NULL,
+                nota INT DEFAULT 3,
+                comentario TEXT,
+                data_registro DATETIME,
+                FOREIGN KEY (usuario_id) REFERENCES Usuario(id) ON DELETE SET NULL
+            );
+        `);
+
+        await pool.query(`
+            CREATE TABLE IF NOT EXISTS Clinica (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                nome VARCHAR(150) NOT NULL,
+                endereco VARCHAR(255) NOT NULL,
+                cidade VARCHAR(100),
+                latitude DECIMAL(10, 8),
+                longitude DECIMAL(11, 8),
+                telefone VARCHAR(30)
+            );
+        `);
+        console.log("Tabelas verificadas/criadas com sucesso no Aiven!");
+    } catch (erro) {
+        console.error("Erro ao criar tabelas:", erro);
+    }
+}
+
+// Chamar a função ao iniciar o servidor
+criarTabelas();
+
 // --- ROTA DE LOGIN CORRIGIDA ---
 app.post('/api/login', async (req, res) => {
     const { email, senha } = req.body;
