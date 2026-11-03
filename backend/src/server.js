@@ -54,6 +54,16 @@ async function criarTabelas() {
                 telefone VARCHAR(30)
             );
         `);
+        await pool.query(`
+            CREATE TABLE IF NOT EXISTS MensagemChat (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                remetente_id INT,
+                destinatario_id INT,
+                mensagem TEXT NOT NULL,
+                data_envio DATETIME,
+                FOREIGN KEY (remetente_id) REFERENCES Usuario(id) ON DELETE CASCADE
+           );
+        `);
         console.log("Tabelas verificadas/criadas com sucesso no Aiven!");
     } catch (erro) {
         console.error("Erro ao criar tabelas:", erro);
