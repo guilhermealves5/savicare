@@ -6,8 +6,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Configuração da conexão com o XAMPP MySQL
-
+// Configuração da conexão com o TiDB Cloud
 const pool = mysql.createPool({
     host: process.env.DB_HOST,
     port: process.env.DB_PORT || 4000,
@@ -55,6 +54,7 @@ async function criarTabelas() {
                 telefone VARCHAR(30)
             );
         `);
+        
         await pool.query(`
             CREATE TABLE IF NOT EXISTS MensagemChat (
                 id INT AUTO_INCREMENT PRIMARY KEY,
@@ -65,7 +65,8 @@ async function criarTabelas() {
                 FOREIGN KEY (remetente_id) REFERENCES Usuario(id) ON DELETE CASCADE
            );
         `);
-        console.log("Tabelas verificadas/criadas com sucesso no Aiven!");
+        
+        console.log("Tabelas verificadas/criadas com sucesso no TiDB Cloud!");
     } catch (erro) {
         console.error("Erro ao criar tabelas:", erro);
     }
@@ -90,7 +91,6 @@ app.post('/api/login', async (req, res) => {
 
         const usuario = linhas[0];
         
-        // Garante que se o campo role estiver NULL no MySQL, assume 'empresa' ou 'colaborador'
         const roleDefinida = usuario.role ? usuario.role.toString().toLowerCase().trim() : 'empresa';
 
         res.json({
@@ -117,7 +117,6 @@ app.post('/api/usuarios', async (req, res) => {
     }
 
     try {
-        // Verifica se o e-mail já existe
         const [existente] = await pool.execute('SELECT id FROM Usuario WHERE email = ?', [email]);
         if (existente.length > 0) {
             return res.status(400).json({ error: 'Este e-mail já está registado.' });
@@ -125,7 +124,6 @@ app.post('/api/usuarios', async (req, res) => {
 
         const cargoFinal = role || 'colaborador';
 
-        // Insere o novo utilizador na base de dados do Aiven
         const [resultado] = await pool.execute(
             'INSERT INTO Usuario (nome, email, senha, role) VALUES (?, ?, ?, ?)',
             [nome, email, senha, cargoFinal]
